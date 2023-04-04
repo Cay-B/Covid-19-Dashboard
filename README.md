@@ -14,4 +14,4 @@ Deployment:
 The website was deployed using a web hosting service from github. 
 
 Conclusion:
-The development of covid-19 dashboard website was a solo work. The result is a visually appealing and functional website that provides information about covid-19. The use of responsive design ensures that the website is accessible on different devices, making it easy for customers to access information about the covid-19 from anywhere.
+The development of covid-19 dashboard website was a solo work. The result is a visually appealing and functional website that provides information about covid-19. The use of responsive design ensures that the website is accessible on different devices, making it easy to use.
