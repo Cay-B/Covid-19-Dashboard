@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/output.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <title>Covid 19 Dashboard</title>
+    <script src="js/jquery-3.6.4.min.js"></script>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <section>
+      <!-- Nav 1 -->
+      <div class="container mx-auto mt-6 hide">
+        <div class="container mx-auto flex flex-row justify-center">
+          <img
+            src="img/covid-19 main.svg"
+            width="70px"
+            alt=""
+            class="transition-all ease-in"
+          />
+          <div
+            class="container mx-auto justify-center text-black font-semibold hidden md:flex my-auto"
+          >
+            <a
+              href="#"
+              class="my-auto px-3 hover:text-red-400 hover:-translate-y-1 transition-all ease-in"
+              >Home</a
+            >
+            <a
+              href="#"
+              id="#"
+              class="my-auto px-3 hover:text-red-400 hover:-translate-y-1 transition-all ease-in"
+              >Map</a
+            >
+            <a
+              href="#"
+              class="my-auto px-3 hover:text-red-400 hover:-translate-y-1 transition-all ease-in"
+              >Cases</a
+            >
+            <a
+              href="#"
+              class="my-auto px-3 hover:text-red-400 hover:-translate-y-1 transition-all ease-in"
+              >Deaths</a
+            >
+            <a
+              href="#"
+              class="my-auto px-3 hover:text-red-400 hover:-translate-y-1 transition-all ease-in"
+              >All Countries</a
+            >
+            <a
+              href="#"
+              class="my-auto px-3 hover:text-red-400 hover:-translate-y-1 transition-all ease-in"
+              >Ethiopia</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav 2 -->
+      <div
+        class="container rounded-md shadow-2xl mt-6 mx-auto bg-gradient-to-tr from-blue-400 to-teal-300 p-6 hide"
+      >
+        <div class="container mx-auto flex justify-center">
+          <h1 class="text-4xl my-auto text-white">COVID-19 Dashboard</h1>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard Nav -->
+    <section>
+      <div
+        class="container flex flex-row mx-auto w-1/3 mt-20 justify-center text-white hide"
+      >
+        <button
+          id="button1"
+          class="hover:animate-pulse flex rounded-sm items-center mx-2 py-1 px-3 bg-gradient-to-tr from-cyan-500 to-blue-500 js-show-on-scroll"
+        >
+          <p class="font-semibold">Ethiopia</p>
+        </button>
+
+        <button
+          id="button2"
+          class="hover:animate-pulse flex items-center rounded-sm mx-2 py-1 px-3 bg-gradient-to-tr from-rose-500 to-orange-500 js-show-on-scroll"
+        >
+          <p class="font-semibold">Global</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- Dashboard 1 Ethiopia -->
+    <section>
+      <div class="justify-center mt-0 flex hide" id="text1">
+        <div class="container items-center flex flex-col lg:flex-row p-16">
+          <div
+            class="shadow-xl container mx-6 flex items-center flex-col py-20 js-show-on-scroll"
+          >
+            <p class="font-semibold">New Recovered</p>
+            <h1 class="text-4xl text-blue-400 font-semibold" id="etRec"></h1>
+            <h1 class="text-2xl">Latest</h1>
+          </div>
+          <div
+            class="shadow-xl container mx-6 flex items-center flex-col py-20"
+          >
+            <p class="font-semibold">Total Confirmed Cases</p>
+            <h1 class="text-4xl text-blue-400 font-semibold" id="etTotCon"></h1>
+            <h1
+              class="text-xl text-orange-500 font-semibold"
+              id="etNewCon"
+            ></h1>
+          </div>
+          <div
+            class="shadow-xl container mx-6 flex items-center flex-col py-20"
+          >
+            <p class="font-semibold">Total Confirmed Deaths</p>
+            <h1
+              class="text-4xl text-blue-400 font-semibold"
+              id="totConDeath"
+            ></h1>
+            <h1
+              class="text-xl text-orange-500 font-semibold"
+              id="newConDeath"
+            ></h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard 2 Global -->
+    <section>
+      <div class="justify-center mt-0 hidden hide" id="text2">
+        <div class="container items-center flex flex-col lg:flex-row p-16">
+          <div
+            class="shadow-xl container mx-6 flex items-center flex-col py-20"
+          >
+            <h1
+              class="text-4xl text-blue-400 font-semibold"
+              id="totalRecovered"
+            ></h1>
+            <p class="font-semibold">Newly Recovered</p>
+            <h1 class="text-xl text-orange-500" id="date">Latest</h1>
+          </div>
+          <div
+            class="shadow-xl container mx-6 flex items-center flex-col py-20"
+          >
+            <p class="font-semibold">Global Confirmed Cases</p>
+            <h1
+              class="text-4xl text-blue-400 font-semibold"
+              id="totConfirmed"
+            ></h1>
+            <h1
+              class="text-xl text-orange-500 font-semibold"
+              id="newConfirmed"
+            ></h1>
+          </div>
+          <div
+            class="shadow-xl container mx-6 flex items-center flex-col py-20"
+          >
+            <p class="font-semibold">Global Confirmed Deaths</p>
+            <h1
+              class="text-4xl text-blue-400 font-semibold counter"
+              id="totDeaths"
+              data-count=""
+            ></h1>
+            <h1
+              class="text-xl text-orange-500 font-semibold"
+              id="newDeaths"
+            ></h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard Info -->
+    <section>
+      <div class="container mx-auto w-1/2 mb-20 justify-center hide">
+        <p class="text-center text-sm">
+          COVID-19 has put health systems under tremendous strain, with
+          countries across the developing world facing their biggest test in
+          living memory. This dashboard keeps track of COVID-19 cases and deaths
+          globally and ethiopia.
+        </p>
+      </div>
+    </section>
+
+    <!-- Dashboard Nav 2 -->
+
+    <!-- Cases & Deaths Graphs header -->
+    <section>
+      <div class="container mx-auto flex flex-row mb-10 mt-20 hide">
+        <div class="container flex justify-center">
+          <h1 class="text-3xl text-center font-semibold">
+            <b class="font-semibold text-rose-600">Cases</b> In Ethiopia
+          </h1>
+        </div>
+        <div class="container flex justify-center">
+          <button
+            class="px-4 py-2 bg-rose-500 text-white font-semibold"
+            id="caseDeathBtn"
+          >
+            Ethiopia
+          </button>
+
+          <a href="#globalData"
+            ><button
+              class="px-4 py-2 bg-blue-200 text-white font-semibold"
+              id="caseDeathBtn2"
+            >
+              Global
+            </button></a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Cases & Deaths Graphs Main -->
+    <div class="mx-auto flex flex-col md:flex-col justify-center">
+      <section>
+        <div class="container mx-auto flex justify-center hide">
+          <figure class="highcharts-figure w-11/12">
+            <div id="container"></div>
+          </figure>
+        </div>
+      </section>
+
+      <section>
+        <div class="container mx-auto flex justify-center hide">
+          <figure class="highcharts-figure w-11/12">
+            <div id="containerC"></div>
+          </figure>
+        </div>
+      </section>
+    </div>
+
+    <div class="">
+      <section>
+        <div class="container mx-auto flex justify-center hide">
+          <figure class="highcharts-figure w-11/12">
+            <div id="containerx"></div>
+          </figure>
+        </div>
+      </section>
+    </div>
+
+    <!-- Covid Stats Tabular Representation -->
+
+    <section>
+      <div class="my-10 px-3 mx-auto hide">
+        <div class="container flex justify-center">
+          <h1 class="text-3xl text-center font-semibold" id="globalData">
+            Global Data
+          </h1>
+        </div>
+        <!-- Global Container -->
+        <div class="flex flex-col md:flex-row hide">
+          <section>
+            <div
+              class="container mx-auto flex flex-col md:flex-col my-16 justify-center hide"
+            >
+              <div
+                id="container2"
+                class="container mx-auto flex justify-center"
+              >
+                <figure class="highcharts-figure"></figure>
+              </div>
+
+              <div
+                class="container flex justify-center mx-auto py-20 px-6 rounded-md shadow-xl w-4/6 hide"
+              >
+                <p class="text-sm">
+                  Global Representation of Covid-19 which is A highly contagious
+                  respiratory disease caused by the SARS-CoV-2 virus. SARS-CoV-2
+                  is thought to spread from person to person through droplets
+                  released when an infected person coughs, sneezes, or talks.
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <h1 class="text-2xl text-sky-500 font-semibold text-center">
+          All Countries Table
+        </h1>
+        <div id="page-content">
+          <!-- Page 1 -->
+
+          <div
+            class="page flex flex-row mx-auto justify-between py-5 mt-10 px-6 bg-blue-100 text-slate-600 rounded-md hide"
+            data-page="1"
+          >
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">Country</h1>
+              </div>
+              <div class="p-3">
+                <p id="count" class="font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">New Cases</h1>
+              </div>
+              <div class="p-3 flex justify-center">
+                <p id="nCases" class="font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">Total Cases</h1>
+              </div>
+              <div class="p-3">
+                <p id="tCases" class="font-semibold text-center hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">New Deaths</h1>
+              </div>
+              <div class="p-3">
+                <p id="nDeaths" class="text-center font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-center text-2xl hide">
+                  Total Deaths
+                </h1>
+              </div>
+              <div class="p-3">
+                <p id="tDeaths" class="text-center font-semibold hide"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Page 2 -->
+          <div
+            class="page hidden flex-row mx-auto justify-between py-5 mt-10 px-6 bg-blue-100 text-slate-600 rounded-md hide"
+            data-page="2"
+          >
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">Country</h1>
+              </div>
+              <div class="p-3">
+                <p id="count2" class="font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">New Cases</h1>
+              </div>
+              <div class="p-3 flex justify-center">
+                <p id="nCases2" class="font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">Total Cases</h1>
+              </div>
+              <div class="p-3">
+                <p id="tCases2" class="font-semibold text-center hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">New Deaths</h1>
+              </div>
+              <div class="p-3">
+                <p id="nDeaths2" class="text-center font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-center text-2xl hide">
+                  Total Deaths
+                </h1>
+              </div>
+              <div class="p-3">
+                <p id="tDeaths2" class="text-center font-semibold hide"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Page 3 -->
+          <div
+            class="page hidden flex-row mx-auto justify-between py-5 mt-10 px-6 bg-blue-100 text-slate-600 rounded-md hide"
+            data-page="3"
+          >
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">Country</h1>
+              </div>
+              <div class="p-3">
+                <p id="count3" class="font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">New Cases</h1>
+              </div>
+              <div class="p-3 flex justify-center">
+                <p id="nCases3" class="font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">Total Cases</h1>
+              </div>
+              <div class="p-3">
+                <p id="tCases3" class="font-semibold text-center hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">New Deaths</h1>
+              </div>
+              <div class="p-3">
+                <p id="nDeaths3" class="text-center font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-center text-2xl hide">
+                  Total Deaths
+                </h1>
+              </div>
+              <div class="p-3">
+                <p id="tDeaths3" class="text-center font-semibold hide"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Page 4 -->
+          <div
+            class="page hidden flex-row mx-auto justify-between py-5 mt-10 px-6 bg-blue-100 text-slate-600 rounded-md hide"
+            data-page="4"
+          >
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">Country</h1>
+              </div>
+              <div class="p-3">
+                <p id="count4" class="font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">New Cases</h1>
+              </div>
+              <div class="p-3 flex justify-center">
+                <p id="nCases4" class="font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">Total Cases</h1>
+              </div>
+              <div class="p-3">
+                <p id="tCases4" class="font-semibold text-center hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">New Deaths</h1>
+              </div>
+              <div class="p-3">
+                <p id="nDeaths4" class="text-center font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-center text-2xl hide">
+                  Total Deaths
+                </h1>
+              </div>
+              <div class="p-3">
+                <p id="tDeaths4" class="text-center font-semibold hide"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Page 5 -->
+          <div
+            class="page hidden flex-row mx-auto justify-between py-5 mt-10 px-6 bg-blue-100 text-slate-600 rounded-md hide"
+            data-page="5"
+          >
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">Country</h1>
+              </div>
+              <div class="p-3">
+                <p id="count5" class="font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">New Cases</h1>
+              </div>
+              <div class="p-3 flex justify-center">
+                <p id="nCases5" class="font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">Total Cases</h1>
+              </div>
+              <div class="p-3">
+                <p id="tCases5" class="font-semibold text-center hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-2xl hide">New Deaths</h1>
+              </div>
+              <div class="p-3">
+                <p id="nDeaths5" class="text-center font-semibold hide"></p>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="p-3">
+                <h1 class="font-semibold text-center text-2xl hide">
+                  Total Deaths
+                </h1>
+              </div>
+              <div class="p-3">
+                <p id="tDeaths5" class="text-center font-semibold hide"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cases Ethiopia -->
+
+    <!-- Final Section -->
+
+    <section>
+      <div class="container flex flex-row justify-center mx-auto">
+        <button
+          id="one"
+          class="page-btn px-3 py-4 bg-red-500 text-white text-xl mx-2 rounded-lg hover:bg-red-500 hover:text-white transition-all 2s"
+          data-page="1"
+        >
+          1
+        </button>
+        <button
+          id="two"
+          class="page-btn px-3 py-4 bg-blue-50 text-xl mx-2 rounded-lg hover:bg-red-500 hover:text-white transition-all 2s"
+          data-page="2"
+        >
+          2
+        </button>
+        <button
+          id="three"
+          class="page-btn px-3 py-4 bg-blue-50 text-xl mx-2 rounded-lg hover:bg-red-500 hover:text-white transition-all 2s"
+          data-page="3"
+        >
+          3
+        </button>
+        <button
+          id="four"
+          class="page-btn px-3 py-4 bg-blue-50 text-xl mx-2 rounded-lg hover:bg-red-500 hover:text-white transition-all 2s"
+          data-page="4"
+        >
+          4
+        </button>
+        <button
+          id="five"
+          class="page-btn px-3 py-4 bg-blue-50 text-xl mx-2 rounded-lg hover:bg-red-500 hover:text-white transition-all 2s"
+          data-page="5"
+        >
+          5
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+
+    <footer>
+      <div
+        class="hide flex bg-gradient-to-tl from-blue-50 to-white px-32 pt-20 flex-col mt-16"
+      >
+        <div class="flex flex-col md:flex-row justify-between mb-10">
+          <img src="img/covid19.png" class="p-6 hidden md:block" alt="" />
+          <p class="my-auto">
+            Coronavirus disease (COVID-19) is an infectious disease caused by
+            the SARS-CoV-2 virus. Most people infected with the virus will
+            experience mild to moderate respiratory illness and recover without
+            requiring special treatment. However, some will become seriously ill
+            and require medical attention.
+          </p>
+        </div>
+        <div
+          class="container flex mx-auto justify-between flex-col md:flex-row"
+        >
+          <img src="img/unicef.png" class="h-20 my-3" alt="" />
+
+          <img src="img/who.png" class="h-20 my-3" alt="" />
+
+          <img src="img/world-bank.png" class="h-20 my-3" alt="" />
+
+          <img src="img/gates-foundation.png" class="h-20 my-3" alt="" />
+        </div>
+        <div class="my-10">
+          <p class="text-center font-semibold">&copy; Covid-19 Dashboard</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/highcharts.js"></script>
+    <script src="js/highcharts-more.js"></script>
+    <script src="js/highcharts-3d.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/exporting.js"></script>
+    <script src="js/cylinder.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script defer src="js/app.js"></script>
+  </body>
+</html>
